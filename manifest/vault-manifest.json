@@ -1,0 +1,636 @@
+{
+  "manifest_version": "0.2",
+  "generated_at": "2026-08-23T23:30:00.387606+00:00",
+  "source": {
+    "provider": "google_drive",
+    "folder_name": "MAROON_MASTER_DYNASTY_VAULT",
+    "folder_id": "1I43aPmvEJmUfbeDOYkzLh9gFXdkp_gh_",
+    "owner": "wffoodgroup@gmail.com"
+  },
+  "coverage": {
+    "scope": "vault root and the four classified subfolders, two levels deep",
+    "note": "Subfolder trees under review/denied folders are not enumerated here."
+  },
+  "date_range": {
+    "oldest_object": "2025-10-31",
+    "newest_object": "2026-08-23",
+    "substantive_corpus": "2026-05-11 to 2026-08-23"
+  },
+  "disposition_counts": {
+    "extracted": 2,
+    "pending_extraction": 36,
+    "s3_only": 2,
+    "denied": 5,
+    "review": 11,
+    "empty": 1,
+    "duplicate": 4,
+    "classified": 4
+  },
+  "dispositions": {
+    "extracted": "Full text is in lake/ in this repo.",
+    "pending_extraction": "Eligible for the lake; text not yet pulled.",
+    "s3_only": "Too large for git; belongs in S3 at full fidelity.",
+    "denied": "Blocked by ingest_rules.yaml. Never ingested.",
+    "review": "Held for a human decision before ingest.",
+    "duplicate": "Content twin of another object; alias recorded.",
+    "empty": "Exports with no content.",
+    "classified": "Folder node, used for routing."
+  },
+  "objects": [
+    {
+      "drive_file_id": "1gBOyVpZ-PGs8wkHs0YbIeryPBsUEeAK4BuRVQvloDNc",
+      "title": "MAROON AI OPERATING ENVIRONMENT, DIRECTIVE 8 REPO ARCHITECTURE & KIRO/CLAUDE AGENT SPECIFICATION",
+      "drive_folder": "02_Technical_and_Code",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-08-04T01:48:17.927Z",
+      "disposition": "extracted",
+      "size_bytes": 8202
+    },
+    {
+      "drive_file_id": "1ybqf2HLUgEXTQA9-WYSlteQrD4FW53hoQ7fweksYaO4",
+      "title": "MAROON SOCIAL (SAFESPACE) \u2014 MULTI-SURFACE SOCIAL PLATFORM, DYNAMIC UI ENGINE & MAROON ALIGNMENT FIREWALL MASTER SPECIFICATION",
+      "drive_folder": "02_Technical_and_Code",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-08-02T21:19:47.603Z",
+      "disposition": "extracted",
+      "size_bytes": 7124
+    },
+    {
+      "drive_file_id": "1qwnp67S_j0tNxE6fFZqDW-uYZkVBx-Uowx5toHUU7bo",
+      "title": "MAROON UNIVERSAL PWA ARCHITECTURE, ZERO-SAAS-FEE MERCHANT MODEL & PLATFORM COST REDUCTION MASTER SPECIFICATION",
+      "drive_folder": "02_Technical_and_Code",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-08-03T03:17:19.844Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 8901
+    },
+    {
+      "drive_file_id": "1yPYoglVciFwS_pnxAf352YszXOuKpMtny4zE1V5agm4",
+      "title": "MAROON OSINT TELEMETRY, GENGHIS KHAN MULTI-AGENT CONSENSUS & PROMPT OPTIMIZATION MASTER SPECIFICATION",
+      "drive_folder": "02_Technical_and_Code",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-08-02T21:38:36.995Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 5557
+    },
+    {
+      "drive_file_id": "1CjIJGSFKZhQVfjYUzGWrOEoVFwBbQBmCjtr3BARg6kk",
+      "title": "MAROON OFFLINE BRAIN DEVELOPMENT ROADMAP, PREDICTIVE ANALYTICS ENGINE & AI INGESTION RUNBOOK",
+      "drive_folder": "02_Technical_and_Code",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-08-02T21:34:03.347Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 6816
+    },
+    {
+      "drive_file_id": "1CV_v4rnmC4BYeZf3-GJXk71DqHCqSDZh7WEFHyPZI84",
+      "title": "MAROON MARKET \u2014 MEDUSAJS v2 PWA STOREFRONT ENGINE, SHOPIFY-ALTERNATIVE ARCHITECTURE & NEXUS CONTROL PLANE MASTER SPECIFICATION",
+      "drive_folder": "02_Technical_and_Code",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-08-02T21:14:55.071Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 9244
+    },
+    {
+      "drive_file_id": "1ld-VWlRWkG2qavhl4LD6Zai4H7ghbbUjh5cxAlMsWQo",
+      "title": "MAROON INTELLIGENCE ENGINE & OFFLINE BRAIN \u2014 PALANTIR OSINT, CONTROL PLANE & THE COUNCIL MASTER SPECIFICATION",
+      "drive_folder": "02_Technical_and_Code",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-08-02T21:05:19.612Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 8366
+    },
+    {
+      "drive_file_id": "1wF8T9ilhntunNCCFIT0IqDH6WHTqYh2chjBO_PiLxDE",
+      "title": "The Open-Source Payment Blueprint for AWS (2026)",
+      "drive_folder": "02_Technical_and_Code",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-07-12T06:57:59.311Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 8993
+    },
+    {
+      "drive_file_id": "1WJflC-uvE9tc3S_JiByMKMFJeSnWd0TFIdn23wmQBao",
+      "title": "Maroon alignment engine.md",
+      "drive_folder": "02_Technical_and_Code",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-07-07T23:07:22.732Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 5044
+    },
+    {
+      "drive_file_id": "1L7SCUv-7Vjtc8rffsu7RVYpTt-ArKxUUb3DWYdf7ljg",
+      "title": "Maroon-atlissan system.md",
+      "drive_folder": "02_Technical_and_Code",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-07-07T23:07:22.439Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 10026
+    },
+    {
+      "drive_file_id": "1R78n8qCCJbtbPLjr9ASrptD11BgXYtVfIEiIKuYO-mE",
+      "title": "Maroon Unified Architecture Triad.md",
+      "drive_folder": "02_Technical_and_Code",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-07-07T23:07:22.335Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 2751
+    },
+    {
+      "drive_file_id": "1EiCxS4_lhMdYw7Dan4RbUjlaI0KdGVarC9e5yxRw3Qo",
+      "title": "Maroon council ai",
+      "drive_folder": "02_Technical_and_Code",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-07-07T23:07:21.264Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 305059
+    },
+    {
+      "drive_file_id": "1i4wbnG5LCbZRP1i3KM1nMjmk28Wi-PMj",
+      "title": "CLAUDE.pdf",
+      "drive_folder": "02_Technical_and_Code",
+      "mime_type": "application/pdf",
+      "modified": "2026-07-05T02:16:47.995Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 90153
+    },
+    {
+      "drive_file_id": "1es73T-ZR3H51wtEMlAVmaBOisrbTUsgYhFKCaGHmw8c",
+      "title": "Truth teller build out",
+      "drive_folder": "02_Technical_and_Code",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-07-07T23:07:54.502Z",
+      "disposition": "s3_only",
+      "size_bytes": 67117986,
+      "note": "67MB \u2014 image-heavy; exceeds git text budget, S3 destination only"
+    },
+    {
+      "drive_file_id": "1xdmQL0Yq3jg8gHMSSbvlqd0iwr26qSCq8rFidDZZO7g",
+      "title": "Onita's Market - Master Specification",
+      "drive_folder": "01_Business_Strategy",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-08-02T21:01:19.211Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 9127
+    },
+    {
+      "drive_file_id": "17ZnWJIOtr_WjssvYh3VxQ91KaTwogLRad7g19l9Tli8",
+      "title": "MAROON DYNASTY CODEX \u2014 THE DEFINITIVE ECOSYSTEM ARCHITECTURE, PATENT PORTFOLIO, SYSTEM ONTOLOGY & BUSINESS MASTER SPECIFICATION",
+      "drive_folder": "01_Business_Strategy",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-08-05T15:21:39.460Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 13605
+    },
+    {
+      "drive_file_id": "1_dMYuULpxCrh3ipNNNjJfMplDG_aD_j12ZCN_2y0uok",
+      "title": "MAROON ANCESTRAL LOGIC LAYER, ZERO-TRUST REALITY CALCULUS & SOVEREIGN DOSSIER MASTER SPECIFICATION",
+      "drive_folder": "01_Business_Strategy",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-08-04T01:52:08.247Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 5565
+    },
+    {
+      "drive_file_id": "1A5ZrKKbuoZ0IAd78T4gKVA7G3YwRcsqJ16CHQRAs14Y",
+      "title": "MAROON DYNASTY CODEX \u2014 UNIFIED ECOSYSTEM ARCHITECTURE, PATENT PORTFOLIO & BUSINESS MASTER SPECIFICATION",
+      "drive_folder": "01_Business_Strategy",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-08-02T21:09:54.443Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 9485
+    },
+    {
+      "drive_file_id": "1HZLzQXeb7PWpWHNxI2X_ZTqpuBd3zGEdvWE-cQ0bboM",
+      "title": "Maroon pull back",
+      "drive_folder": "01_Business_Strategy",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-07-09T19:14:44.444Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 11792
+    },
+    {
+      "drive_file_id": "1Hpa1aSTei9KqCQqVCLsiKC-cssgg9QqXizwl42FPJho",
+      "title": "Notebooklm",
+      "drive_folder": "01_Business_Strategy",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-07-10T03:36:39.120Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 5460
+    },
+    {
+      "drive_file_id": "1HX2aR2PWPA45Suj1gJM0Rt5hkJM3rSYMzZ-BP618ARM",
+      "title": "Onitas market business plan",
+      "drive_folder": "01_Business_Strategy",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-07-09T20:40:59.704Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 93503
+    },
+    {
+      "drive_file_id": "1MqvEMvlgiknKxeI8hCZ2_4c8moVOalPB8tqvaZOz-aM",
+      "title": "Maroon design system",
+      "drive_folder": "01_Business_Strategy",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-07-07T23:07:32.307Z",
+      "disposition": "s3_only",
+      "size_bytes": 26469705,
+      "note": "26MB \u2014 image-heavy; S3 destination only"
+    },
+    {
+      "drive_file_id": "1WUhYZH8Ei4-DxmJl0ABgIdQSptLolnSzRHTIM87E-go",
+      "title": "MAROON DATA CURRENCY, MAROON STREAM & LIFELINE TELECOM INTEGRATION MASTER SPECIFICATION",
+      "drive_folder": "03_Marketing_and_Operations",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-08-02T21:24:23.637Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 6369
+    },
+    {
+      "drive_file_id": "1ocT1AJnnZpWDDpUhNp9mh_iNh12sgmwwqgbn3_DTmYc",
+      "title": "MAROON INDUSTRIAL LOGISTICS, SPECIALIZED MANUFACTURING & VERIFIED WORKFORCE MASTER SPECIFICATION",
+      "drive_folder": "03_Marketing_and_Operations",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-08-02T21:29:05.315Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 7723
+    },
+    {
+      "drive_file_id": "1eZutxdxWZnK_PRJmxsrfBmdFAeIOxvxjyf5GgaO2Yq8",
+      "title": "Maroon Medical - Freedom House Master Blueprint",
+      "drive_folder": "04_Legal_Healthcare_Compliance",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-08-02T21:01:44.014Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 5943
+    },
+    {
+      "drive_file_id": "1J_aJN_sOP9xPf4-HgdzOTzYmMt9oBefv8uPjRPsFAgE",
+      "title": "MAROON ECOSYSTEM DISASTER RECOVERY, CO-OP HOUSING GOVERNANCE & ENTERPRISE DEVELOPER PORTAL MASTER SPECIFICATION",
+      "drive_folder": "04_Legal_Healthcare_Compliance",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-08-02T21:40:41.535Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 7562
+    },
+    {
+      "drive_file_id": "13Txsbz80Ke8rAMd9DqBGYphpYB8bO4Ey_CoKgZqZHtg",
+      "title": "Sherie resume",
+      "drive_folder": "04_Legal_Healthcare_Compliance",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-07-10T16:24:26.465Z",
+      "disposition": "denied",
+      "size_bytes": 4738,
+      "note": "PII \u2014 personal resume misfiled in a business folder (deny.personal_data)"
+    },
+    {
+      "drive_file_id": "1oe2Id2k3RMqG3XSjdOnyhqlpyT53f-02cHbePeXU5Zo",
+      "title": "All 3 nada grade bring it all together",
+      "drive_folder": "04_Legal_Healthcare_Compliance",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-05-28T16:58:13.594Z",
+      "disposition": "review",
+      "size_bytes": 4819,
+      "note": "Conversational fragment; low signal"
+    },
+    {
+      "drive_file_id": "1Qga8XH1TDgCp4bsgj3opsbDlUsXh1Gk6aOa3WSsE-wc",
+      "title": "All 4",
+      "drive_folder": "04_Legal_Healthcare_Compliance",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-05-28T17:08:28.197Z",
+      "disposition": "review",
+      "size_bytes": 5879,
+      "note": "Conversational fragment; low signal"
+    },
+    {
+      "drive_file_id": "1NoEBHhuIuS1dQ52X8_B4So99qQDXZ7yylwtU9UeVzuM",
+      "title": "Both sbd give us an open source repo that's intern...",
+      "drive_folder": "04_Legal_Healthcare_Compliance",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-05-28T16:49:30.619Z",
+      "disposition": "review",
+      "size_bytes": 4060,
+      "note": "Conversational fragment"
+    },
+    {
+      "drive_file_id": "1iCKIJCnViLY17S481zxjbQsmC1wcH2t_uExMUWV9LhU",
+      "title": "All 3 but we you sure were touching, all the bases...",
+      "drive_folder": "04_Legal_Healthcare_Compliance",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-05-28T17:09:47.758Z",
+      "disposition": "review",
+      "size_bytes": 4775,
+      "note": "Conversational fragment"
+    },
+    {
+      "drive_file_id": "1eNJHGE05gjWJMGKZcOillg6O5XbcditVC7Y3GUm-DLI",
+      "title": "What else did we add home health care",
+      "drive_folder": "04_Legal_Healthcare_Compliance",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-05-28T17:06:54.683Z",
+      "disposition": "review",
+      "size_bytes": 3758,
+      "note": "Conversational fragment"
+    },
+    {
+      "drive_file_id": "1Kheq9N1IQ2z7mhygKExfOMXUQJw7uYfpY51j24S6PWY",
+      "title": "ONITAS MASTER PLAN v1.2 (Updated) - Maroon Academy Integration",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-08-22T05:48:47.668Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 8044
+    },
+    {
+      "drive_file_id": "1sr9LtBUAhBMJX3Na68-TEbdA_-P3RE_G9EOhwXCQEV0",
+      "title": "AGENT HANDOFF - Build Maroon World Phase 1 + Onitas Integration",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-08-22T05:50:00.972Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 19110
+    },
+    {
+      "drive_file_id": "1k5vNmDApmdwfryYQbB_zwNXM9tE8HosU2BcEYTD0MhE",
+      "title": "MAROON WORLD PHASE 1 SPEC - Video Platform MVP",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-08-22T05:48:11.523Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 13551
+    },
+    {
+      "drive_file_id": "1RplttxLJaLSuLivIg3HovPjjYvoOKPV-LhFUOTJlQ1Q",
+      "title": "RECORD_A_SKILL Analysis + Maroon World MVP + Onitas Integration",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-08-22T05:45:34.734Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 13291
+    },
+    {
+      "drive_file_id": "1w8oX4esxBpLQ6m_4zfZbS8Ur7PZ6gXle2EWvaWaSwQA",
+      "title": "ONITAS MARKET MASTER PLAN v1.1 \u2014 Solo Founder Edition",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-08-22T04:35:50.092Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 20430
+    },
+    {
+      "drive_file_id": "14qtm4klT6ETi5wPL7PHOc8qMQVXNcl9-",
+      "title": "maroon-cicd-infra-handoff.pdf",
+      "drive_folder": "_root",
+      "mime_type": "application/pdf",
+      "modified": "2026-08-22T01:06:30.188Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 129866
+    },
+    {
+      "drive_file_id": "1UebrNj76ecg7wSFlu4HeL9fjv1SSZ9XPjv-RxLFruUs",
+      "title": "MAROON DATALAKE \u2014 Connector Manifest v0.1",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-08-21T22:50:50.415Z",
+      "disposition": "empty",
+      "size_bytes": 1024,
+      "note": "Document exports as empty content"
+    },
+    {
+      "drive_file_id": "1aXVUYmVO_Y2kHKtGx88G79YKAvMUDFbTggltRvCFJsM",
+      "title": "14_huggingface_model_stack_spec.md",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-08-12T21:52:51.716Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 4359
+    },
+    {
+      "drive_file_id": "1erL7XUHZjMstekhNfjmaUU_D8BzgWEaG",
+      "title": "MAROON DYNASTY CODEX ... (.docx)",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "modified": "2026-08-05T15:52:24.418Z",
+      "disposition": "duplicate",
+      "size_bytes": 784931,
+      "note": "Binary twin of Google Doc 17ZnWJIOtr..."
+    },
+    {
+      "drive_file_id": "1f1uYpkrj45sHRS_H650xeFMnRZlTkND-",
+      "title": "MAROON ANCESTRAL LOGIC LAYER ... (.docx)",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "modified": "2026-08-04T20:15:55.023Z",
+      "disposition": "duplicate",
+      "size_bytes": 1212042,
+      "note": "Binary twin of Google Doc 1_dMYuULpx..."
+    },
+    {
+      "drive_file_id": "1jXlqMKtqPs34_KHRcCybPPMkusBeFyna",
+      "title": "MAROON_ANCESTRAL_LOGIC_LAYER_CORRECTED.docx",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "modified": "2026-08-09T04:57:59.223Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 11393
+    },
+    {
+      "drive_file_id": "1p_b5923vFhzHhYTSmbufpt337AJ81HYlzhKP3mQJ4Uw",
+      "title": "Google Keep Document",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-08-04T01:41:29.790Z",
+      "disposition": "review",
+      "size_bytes": 81007,
+      "note": "Unsorted Keep export"
+    },
+    {
+      "drive_file_id": "1mVkw2K_ElREnC4a1MwYFAsm4_BFNnVdzp0SGM7QsuQg",
+      "title": "Aws repo",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-07-07T01:49:16.376Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 6662
+    },
+    {
+      "drive_file_id": "12ph444AdSj9SYsrVHLZJcPUIokpj9-3qMy0Zsv4EoZM",
+      "title": "Mac ave letter",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-07-07T20:57:12.581Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 5213
+    },
+    {
+      "drive_file_id": "1M1r9Wq2_j6AcQqYCVeNq5Mg6TGWCpf3zF0YVlydHF-8",
+      "title": "Maroon frozen delivery",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-07-05T21:13:06.910Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 3655
+    },
+    {
+      "drive_file_id": "1NldoLL9_Ml8mW7pqvCOdnIRMnB2R5749",
+      "title": "delivering-superior-tokenomics-for-ai-factories",
+      "drive_folder": "_root",
+      "mime_type": "text/html",
+      "modified": "2026-07-06T02:12:37.382Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 84354,
+      "note": "External article, saved HTML"
+    },
+    {
+      "drive_file_id": "1tNCfqId4e1aA9R643WPLnc3b5tIA-OE_ZBh9e88kUNc",
+      "title": "Https://youtu.be/MS7E5TXNviM...",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.document",
+      "modified": "2026-06-27T01:45:47.013Z",
+      "disposition": "review",
+      "size_bytes": 5800,
+      "note": "Link capture"
+    },
+    {
+      "drive_file_id": "1hFm4N2PgwKr0Ly0Y19lbgKlpai9GXUe1",
+      "title": "1T6qC40ouIJIL_G8WrGfexNF5kgtfXfzk",
+      "drive_folder": "_root",
+      "mime_type": "application/octet-stream",
+      "modified": "2026-06-27T20:46:53.017Z",
+      "disposition": "duplicate",
+      "size_bytes": 973186,
+      "note": "Opaque blob; twin of 1egj7Y9IJTO..."
+    },
+    {
+      "drive_file_id": "1egj7Y9IJTO7k7hwKo3o-uYArc0AkZ4F1",
+      "title": "1T6qC40ouIJIL_G8WrGfexNF5kgtfXfzk",
+      "drive_folder": "_root",
+      "mime_type": "application/octet-stream",
+      "modified": "2026-06-27T20:46:49.122Z",
+      "disposition": "duplicate",
+      "size_bytes": 973276,
+      "note": "Opaque blob; twin of 1hFm4N2PgwK..."
+    },
+    {
+      "drive_file_id": "1y5ywRWgChhdbQphxCJmMBZQAuN4RllK9",
+      "title": "Maroon-AWS-portable-root",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.folder",
+      "modified": "2026-08-23T21:11:12.207Z",
+      "disposition": "denied",
+      "note": "Contains live .env, kiro_oauth_config.json, and synced .git/ (deny.secrets). ROTATE THESE CREDENTIALS."
+    },
+    {
+      "drive_file_id": "1uzJW_OHd71Dk44uLAFs9fwi0I7uSGNd7",
+      "title": "DCIM",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.folder",
+      "modified": "2026-08-04T03:05:17.209Z",
+      "disposition": "denied",
+      "note": "Phone camera roll (deny.personal_data)"
+    },
+    {
+      "drive_file_id": "13CgAUcV4BNcLwLrYkNKh3bVuPEGJb9ju",
+      "title": "Pictures",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.folder",
+      "modified": "2026-08-04T03:05:02.281Z",
+      "disposition": "denied",
+      "note": "Phone backup (deny.personal_data)"
+    },
+    {
+      "drive_file_id": "1w_wqOSUQHyl3ComzTLlTjjJwj3Fqlee7",
+      "title": "Download",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.folder",
+      "modified": "2026-08-04T03:05:09.085Z",
+      "disposition": "denied",
+      "note": "Phone backup (deny.personal_data)"
+    },
+    {
+      "drive_file_id": "1rHcL1_QVQ_alHULUDLW2zQw6YA9tBBOg",
+      "title": "Delete",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.folder",
+      "modified": "2026-08-02T20:55:20.391Z",
+      "disposition": "review",
+      "note": "Holds sole copies of some documents \u2014 do not purge before review"
+    },
+    {
+      "drive_file_id": "1lN9KfN80V3H1L8aR-GuzQO3NxEzvToqx",
+      "title": "Maroon Injest",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.folder",
+      "modified": "2026-06-22T15:53:07.304Z",
+      "disposition": "review",
+      "note": "Unsorted dump"
+    },
+    {
+      "drive_file_id": "1AK76EY5agQCLpL3ZHo_7o-zpKZsf7vM8",
+      "title": "Saved from the Google app",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.folder",
+      "modified": "2026-07-17T04:14:36.060Z",
+      "disposition": "review",
+      "note": "Mixed personal/business captures"
+    },
+    {
+      "drive_file_id": "1Yw94yNKOUpQZBr6Ukqn7Xqpw11CwV6hc",
+      "title": "Maroon alignment Maroon Atlissan",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.folder",
+      "modified": "2026-07-05T21:13:59.533Z",
+      "disposition": "pending_extraction"
+    },
+    {
+      "drive_file_id": "1HWJbDwe25OaOj2sQ0jqUT72Uz2rG4wyj",
+      "title": "MAC ave",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.folder",
+      "modified": "2026-06-27T00:43:22.703Z",
+      "disposition": "pending_extraction"
+    },
+    {
+      "drive_file_id": "1KnjeRy9bjl6NJwgh_JSsSQ6uKIKlPTxf",
+      "title": "Maroon",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.folder",
+      "modified": "2026-08-04T03:04:59.081Z",
+      "disposition": "review",
+      "note": "Phone-backup sibling; verify before ingest"
+    },
+    {
+      "drive_file_id": "11gd9wMsVss7Tu_sIaLf_zZCduJirrXEj",
+      "title": "01_Business_Strategy",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.folder",
+      "modified": "2026-08-02T20:55:11.120Z",
+      "disposition": "classified"
+    },
+    {
+      "drive_file_id": "1BGV72YU3QGrJ3Tr3MUoGXYWg78vv61zf",
+      "title": "02_Technical_and_Code",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.folder",
+      "modified": "2026-08-02T20:55:13.570Z",
+      "disposition": "classified"
+    },
+    {
+      "drive_file_id": "14LVfZbz8ZPz7Ut_5FU2yWYctkO3ua8U_",
+      "title": "03_Marketing_and_Operations",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.folder",
+      "modified": "2026-08-02T20:55:15.837Z",
+      "disposition": "classified"
+    },
+    {
+      "drive_file_id": "1S75CruIo9vIXeMG_LwxuHLQy64tl6ADv",
+      "title": "04_Legal_Healthcare_Compliance",
+      "drive_folder": "_root",
+      "mime_type": "application/vnd.google-apps.folder",
+      "modified": "2026-08-02T20:55:18.011Z",
+      "disposition": "classified"
+    }
+  ]
+}

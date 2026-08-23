@@ -1,0 +1,126 @@
+# MAROON-ETL — Vault Ingest Rules
+#
+# Governs what moves from MAROON_MASTER_DYNASTY_VAULT (Google Drive) into
+# this repository and into the S3 datalake.
+#
+# Authority: "zero secrets in GitHub" is a non-negotiable guardrail from
+# SECURITY.md as defined in the Directive 8 repo architecture spec
+# (lake/02_technical_and_code/maroon-ai-operating-environment-directive-8.md).
+# These rules implement that guardrail mechanically rather than by convention.
+
+source:
+  provider: google_drive
+  folder_name: MAROON_MASTER_DYNASTY_VAULT
+  folder_id: "1I43aPmvEJmUfbeDOYkzLh9gFXdkp_gh_"
+  owner: wffoodgroup@gmail.com
+
+# ─── Destinations ────────────────────────────────────────────────────
+destinations:
+  git:
+    # Text-extracted documents only. This is what Kiro and Claude Code read.
+    path: lake/
+    max_file_bytes: 1048576      # 1 MiB — git is for text, not media
+  s3:
+    # Full-fidelity originals, including large binaries git should not carry.
+    bucket: "shafanna-datalake-${AWS_ACCOUNT_ID}"
+    prefix: "etl/gdrive/dynasty-vault/"
+    encryption: AES256
+    # NOTE: bucket does not exist yet — terraform has never been applied.
+    # See Maroon-Shevette-master-agent/docs/AUDIT-2026-08-23.md.
+
+# ─── Hard exclusions: never ingested, to git or to S3 ────────────────
+# A match here aborts ingestion of that object. These are not filters that
+# can be relaxed per-run; they are the policy boundary.
+deny:
+  secrets:
+    reason: "Credential material. Ingesting to git is irreversible via history."
+    match_filenames:
+      - ".env"
+      - ".env.*"
+      - "*.pem"
+      - "*.key"
+      - "*_oauth_config.json"
+      - "kiro_oauth_config.json"
+      - "credentials.json"
+      - "service_account*.json"
+      - "*.tfstate"
+      - "*.tfstate.backup"
+    match_paths:
+      - "Maroon-AWS-portable-root/**"   # mirrored repo carrying live .env + OAuth config
+      - "**/.git/**"                    # synced git internals
+
+  personal_data:
+    reason: "PII and private correspondence mixed into business folders."
+    match_filenames:
+      - "*resume*"
+      - "*Resume*"
+      - "*Messages*"
+      - "*Messenger*"
+    match_paths:
+      - "DCIM/**"        # phone camera roll
+      - "Pictures/**"    # phone backup
+      - "Download/**"    # phone backup
+
+  binary_noise:
+    reason: "No analytical value; ~90MB of runtime libraries."
+    match_filenames:
+      - "*.dll"
+      - "*.exe"
+      - "*.so"
+      - "*.dylib"
+      - "*.node"
+
+# ─── Content scanning ────────────────────────────────────────────────
+# Applied to every file that passes `deny`. A hit quarantines the file and
+# fails the run loudly rather than silently skipping it.
+scan:
+  enabled: true
+  fail_run_on_hit: true
+  patterns:
+    - name: aws_access_key_id
+      regex: "AKIA[0-9A-Z]{16}"
+    - name: aws_secret_access_key
+      regex: "(?i)aws_secret_access_key\\s*[=:]\\s*['\"]?[A-Za-z0-9/+=]{40}"
+    - name: github_token
+      regex: "gh[pousr]_[A-Za-z0-9]{36,}"
+    - name: google_api_key
+      regex: "AIza[0-9A-Za-z_-]{35}"
+    - name: private_key_block
+      regex: "-----BEGIN (RSA |EC |OPENSSH |PGP )?PRIVATE KEY-----"
+    - name: slack_token
+      regex: "xox[baprs]-[0-9A-Za-z-]{10,}"
+    - name: bearer_jwt
+      regex: "eyJ[A-Za-z0-9_-]{10,}\\.[A-Za-z0-9_-]{10,}\\.[A-Za-z0-9_-]{10,}"
+
+# ─── Review queue: ingested to S3, held out of git pending a decision ──
+review:
+  reason: "Sole-copy documents in a folder marked for deletion, and an
+           unsorted dump. Neither should be silently discarded nor
+           silently published."
+  match_paths:
+    - "Delete/**"
+    - "Maroon Injest/**"
+    - "Saved from the Google app/**"
+
+# ─── Classification: Drive folder → lake domain ──────────────────────
+classify:
+  "01_Business_Strategy":            lake/01_business_strategy
+  "02_Technical_and_Code":           lake/02_technical_and_code
+  "03_Marketing_and_Operations":     lake/03_marketing_and_operations
+  "04_Legal_Healthcare_Compliance":  lake/04_legal_compliance
+  _root:                             lake/00_root
+
+# ─── Export formats for Google-native types ──────────────────────────
+export:
+  application/vnd.google-apps.document:    text/markdown
+  application/vnd.google-apps.spreadsheet: text/csv
+  application/vnd.google-apps.presentation: text/plain
+
+# ─── Deduplication ───────────────────────────────────────────────────
+# The vault is roughly 60-70% duplicate by volume. Content hashing keeps
+# one copy and records the aliases in the manifest.
+dedupe:
+  enabled: true
+  strategy: sha256_content
+  keep: most_recently_modified
+  record_aliases: true
