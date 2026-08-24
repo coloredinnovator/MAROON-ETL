@@ -1,6 +1,6 @@
 {
   "register_version": "1.0",
-  "generated_at": "2026-08-24T00:48:53.654999+00:00",
+  "generated_at": "2026-08-24T00:51:57.930584+00:00",
   "policy": "rotate_from_lake",
   "note": "Credential-bearing files are ingested normally. This register is the rotation worklist derived from what landed in the lake. Rotate each entry at its provider, then set status to 'rotated'.",
   "files_scanned": 18,
@@ -16,7 +16,7 @@
       "status": "pending",
       "source": "vault_known",
       "note": "Drive vault location known to carry live credentials (.env, kiro_oauth_config.json). Folder is link-shared.",
-      "detected_at": "2026-08-24T00:48:53.654772+00:00"
+      "detected_at": "2026-08-24T00:51:57.930378+00:00"
     }
   ]
 }

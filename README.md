@@ -156,7 +156,21 @@ restricted bucket rather than the main lake, which is placement, not exclusion.
 
 ## Shafanna Ontology Integration
 
-This pipeline integrates with the [Shafanna master agent](https://github.com/coloredinnovator/Maroon-Shevette-master-agent) via git submodule:
+This pipeline integrates with the [Shafanna master agent](https://github.com/coloredinnovator/Maroon-Shevette-master-agent) through `vendor/shafanna`:
+
+> **Note on `vendor/shafanna`.** `.gitmodules` declares this a git submodule,
+> but it is not one — git records it as a regular tree (`040000`), not a
+> gitlink (`160000`). It is a vendored copy of the Shafanna modules, committed
+> directly.
+>
+> Nothing is broken by this: a plain `git clone` gets the code and the tests
+> pass. But `git submodule update --init` does nothing useful, and the vendored
+> copy has no update path back to the upstream repo, so it will drift silently.
+> Either drop `.gitmodules` and treat the vendoring as deliberate (with a
+> documented refresh step), or convert it to a real submodule. Right now the
+> declaration and the reality disagree.
+
+
 
 - **KnowledgeGraph**: Every document is a `GraphNode` with `ObjectType.DATA_ASSET`
 - **SemanticLayer**: Documents get interface assignments (ARCHIVABLE, SECURED, etc.)

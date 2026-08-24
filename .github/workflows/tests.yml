@@ -1,0 +1,75 @@
+# MAROON-ETL Test Suite
+#
+# Runs the pytest suite on every push and pull request.
+#
+# Why this exists: this repo shipped 167 tests and no workflow to run them.
+# The companion repo had the same gap, and that is how an undeclared
+# dependency reached its main branch unnoticed. See
+# Maroon-Shevette-master-agent/docs/AUDIT-2026-08-23.md.
+#
+# No cloud credentials are used, so this stays green regardless of whether
+# the AWS infrastructure has been applied. That matters here: terraform has
+# never been applied, so any credentialed job would fail for reasons that
+# have nothing to do with the code.
+#
+# No submodule checkout: despite .gitmodules declaring vendor/shafanna as a
+# submodule, it is committed as a regular tree, so a plain checkout has
+# everything the tests need. See docs/ARCHIVE-AUDIT.md.
+
+name: Tests
+
+on:
+  push:
+    branches: ["**"]
+    paths:
+      - "src/**"
+      - "tests/**"
+      - "vendor/**"
+      - "requirements.txt"
+      - ".github/workflows/tests.yml"
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: pytest
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Verify declared dependencies actually import
+        # Catches a module required at runtime but absent from requirements.txt
+        # — the exact bug class this workflow was added for.
+        run: |
+          python -c "import boto3, yaml, requests, rich, dateutil; print('runtime imports OK')"
+
+      - name: Verify the vendored Shafanna modules resolve
+        # The pipeline imports these for KnowledgeGraph, DAG, MerkleDAG,
+        # SemanticLayer and NeMoGuardrails. If the vendored tree is ever
+        # replaced by a real submodule, a plain checkout would leave it empty
+        # and this fails loudly instead of the suite erroring obscurely.
+        run: |
+          python -c "import pathlib, sys; p = pathlib.Path('vendor/shafanna/src'); sys.exit(0 if p.is_dir() and any(p.iterdir()) else 'vendor/shafanna/src missing or empty')"
+
+      - name: Run test suite
+        run: python -m pytest tests/ -q
+
+      - name: Rebuild the rotation register
+        # Records credentials found in the corpus into the worklist. Never
+        # blocks — a credential found is a work item, not a build failure.
+        run: python tools/build_rotation_register.py --print
