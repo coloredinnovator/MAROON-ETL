@@ -97,7 +97,7 @@ lake/
   04_legal_compliance/
 manifest/vault-manifest.json   Provenance for all 65 vault objects
 ingest_rules.yaml              Declarative ingest policy
-tools/scan_secrets.py          Standalone policy check
+tools/build_rotation_register.py  Builds the rotation worklist
 ```
 
 Every file in `lake/` carries YAML front-matter with its `drive_file_id`, source
@@ -106,34 +106,53 @@ folder, and modification time, so any document traces back to its Drive original
 Extraction is **partial**: the highest-value specs are extracted; the manifest
 carries the remaining objects with their Drive IDs and an explicit disposition
 each (`extracted`, `pending_extraction`, `s3_only`, `denied`, `review`,
-`duplicate`, `rotate_before_ingest`), so extraction resumes without re-surveying.
+`duplicate`), so extraction resumes without re-surveying.
 
-## Ingest Policy and the Rotation Gate
+## Ingest Policy — Rotate From The Lake
 
-`ingest_rules.yaml` is the declarative counterpart to the guardrails table above.
-Two things about it differ from the code rails and need reconciling:
+`ingest_rules.yaml` is the declarative counterpart to the guardrails table
+above. The policy is **rotate from the lake**:
 
-**1. Secrets are gated on ordering, not excluded.** Owner decision (2026-08-23):
-the credential-bearing files are *not* permanently excluded — they belong in the
-lake, and the credentials will be rotated. `rotate_before_ingest` therefore holds
-them only until rotation happens, then releases them. The reasoning is that git
-history is permanent: a credential committed and then rotated stays readable
-forever, while one rotated first is already dead when it lands. Same destination,
-safe order.
+Credential-bearing files are ingested like everything else. Nothing is held
+back, nothing is excluded for carrying secrets, and no scan blocks the
+pipeline. The lake is the credential *inventory* — it is what tells you what
+needs rotating.
 
-To release: rotate, set `rotate_before_ingest.rotated: true`, and those files
-ingest on the next run like anything else.
+`manifest/rotation-register.json` is the worklist that falls out of it. Every
+credential found during ingest becomes an entry naming the file, the credential
+type, and where to rotate it:
 
-This is in tension with Rail A ("No secrets in main lake", severity BLOCK) in
-`src/maroon_etl/guardrails/etl_rails.py`, which hard-blocks rather than gates.
-**The two should be reconciled before a production run** — right now the
-declarative policy and the code rail disagree.
+```json
+{
+  "file": "Maroon-AWS-portable-root/**",
+  "credential": "known_credential_location",
+  "rotate_at": "Identify each credential inside, then rotate at its provider",
+  "status": "pending"
+}
+```
 
-**2. `tools/scan_secrets.py` overlaps `etl_rails.py`.** Both scan for AWS keys,
-JWTs, Slack tokens, and private keys. Maintaining two scanners that can drift
-apart is worse than one; consolidating them (likely by having `etl_rails.py` read
-`ingest_rules.yaml`) is worth doing, but is left as an explicit decision rather
-than resolved unilaterally in a merge.
+Work it top to bottom, rotate each at its provider, set `status` to `rotated`.
+Re-running the scan carries rotated entries forward, so the register is
+cumulative rather than resetting each run:
+
+```bash
+python tools/build_rotation_register.py --print
+```
+
+It exits 0 on findings — a credential found is a work item, not a build
+failure.
+
+### Reconciling with the code rails
+
+Rail A in `src/maroon_etl/guardrails/etl_rails.py` ("No secrets in main lake",
+severity `BLOCK`) still hard-blocks. Under rotate-from-the-lake it should
+**record to the register instead of blocking**, otherwise the declarative
+policy and the code rail disagree and the rail wins at runtime. That change is
+flagged, not made — it is Kiro's module.
+
+The `deny` section is now only `.git/` internals and runtime binaries: things
+with no analytical value, not a security boundary. PII still routes to the
+restricted bucket rather than the main lake, which is placement, not exclusion.
 
 ## Shafanna Ontology Integration
 

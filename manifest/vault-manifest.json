@@ -20,25 +20,23 @@
   },
   "disposition_counts": {
     "extracted": 3,
-    "pending_extraction": 45,
+    "pending_extraction": 46,
     "s3_only": 2,
     "denied": 5,
     "review": 12,
     "empty": 1,
     "duplicate": 6,
-    "rotate_before_ingest": 1,
     "classified": 4
   },
   "dispositions": {
     "extracted": "Full text is in lake/ in this repo.",
     "pending_extraction": "Eligible for the lake; text not yet pulled.",
     "s3_only": "Too large for git; belongs in S3 at full fidelity.",
-    "denied": "Blocked by ingest_rules.yaml deny.*. Never ingested.",
+    "denied": "Blocked by ingest_rules.yaml deny.* (git internals, binary noise). No security exclusions.",
     "review": "Held for a human decision before ingest.",
     "duplicate": "Content twin of another object; alias recorded.",
     "empty": "Exports with no content.",
-    "classified": "Folder node, used for routing.",
-    "rotate_before_ingest": "Destined for the lake; held only until the credentials it carries are rotated."
+    "classified": "Folder node, used for routing."
   },
   "objects": [
     {
@@ -522,8 +520,9 @@
       "drive_folder": "_root",
       "mime_type": "application/vnd.google-apps.folder",
       "modified": "2026-08-23T21:11:12.207Z",
-      "disposition": "rotate_before_ingest",
-      "note": "Carries live .env and kiro_oauth_config.json. Owner decision 2026-08-23: destined for the lake, not excluded. Ingests once credentials are rotated and ingest_rules.yaml rotate_before_ingest.rotated is set true."
+      "disposition": "pending_extraction",
+      "note": "Carries live .env and kiro_oauth_config.json. Policy: rotate from the lake \u2014 ingested normally, credentials recorded in manifest/rotation-register.json as the rotation worklist.",
+      "rotation_register": true
     },
     {
       "drive_file_id": "1uzJW_OHd71Dk44uLAFs9fwi0I7uSGNd7",
@@ -776,5 +775,11 @@
       "size_bytes": 165220,
       "note": "SNAP compliance."
     }
-  ]
+  ],
+  "policy": {
+    "name": "rotate_from_lake",
+    "decided": "2026-08-23",
+    "summary": "Credential-bearing files are ingested like everything else. Nothing is held back. The lake is the credential inventory; manifest/rotation-register.json is the rotation worklist derived from it.",
+    "register": "manifest/rotation-register.json"
+  }
 }

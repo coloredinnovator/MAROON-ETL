@@ -1,12 +1,12 @@
 # MAROON-ETL — Vault Ingest Rules
 #
 # Governs what moves from MAROON_MASTER_DYNASTY_VAULT (Google Drive) into
-# this repository and into the S3 datalake.
+# the datalake.
 #
-# Authority: "zero secrets in GitHub" is a non-negotiable guardrail from
-# SECURITY.md as defined in the Directive 8 repo architecture spec
-# (lake/02_technical_and_code/maroon-ai-operating-environment-directive-8.md).
-# These rules implement that guardrail mechanically rather than by convention.
+# Owner decision (2026-08-23): ROTATE FROM THE LAKE.
+# Credential-bearing files are ingested like everything else. Nothing is held
+# back waiting on rotation. The lake is what tells you what to rotate — it is
+# the credential inventory, not a place credentials are kept out of.
 
 source:
   provider: google_drive
@@ -16,34 +16,73 @@ source:
 
 # ─── Destinations ────────────────────────────────────────────────────
 destinations:
-  git:
-    # Text-extracted documents only. This is what Kiro and Claude Code read.
-    path: lake/
-    max_file_bytes: 1048576      # 1 MiB — git is for text, not media
-  s3:
-    # Full-fidelity originals, including large binaries git should not carry.
-    bucket: "shafanna-datalake-${AWS_ACCOUNT_ID}"
+  lake:
+    # Full corpus, including credential-bearing files. This is the inventory.
+    bucket: "maroon-datalake-${AWS_ACCOUNT_ID}-usw2"
     prefix: "etl/gdrive/dynasty-vault/"
     encryption: AES256
     # NOTE: bucket does not exist yet — terraform has never been applied.
     # See Maroon-Shevette-master-agent/docs/AUDIT-2026-08-23.md.
+  restricted:
+    # PII lands here rather than the main lake. Same corpus, tighter ACL.
+    bucket: "maroon-datalake-restricted-${AWS_ACCOUNT_ID}-usw2"
+    encryption: AES256
+  git:
+    # Text-extracted documents committed to this repo, for agents that read
+    # the repo directly (Kiro, Claude Code) per Directive 8.
+    path: lake/
+    max_file_bytes: 1048576      # 1 MiB — git carries text, not media
 
-# ─── Rotate-before-ingest gate ───────────────────────────────────────
-# Per owner decision (2026-08-23): these files are NOT permanently excluded.
-# They are destined for the lake. The gate is ordering, not exclusion.
+# ─── Rotation register ───────────────────────────────────────────────
+# This is the "rotate from the lake" mechanism.
 #
-# Git history is permanent — a credential committed and then rotated stays
-# readable in history forever, but a credential rotated *first* is already
-# dead by the time it lands. So the same end state is reached either way;
-# only the safe order is enforced here.
+# Every credential found during ingest is RECORDED, not blocked. The scan
+# writes an entry to manifest/rotation-register.json naming the file, the
+# credential type, and where it was found. That register is the rotation
+# worklist: you work it top to bottom, rotate each credential at its
+# provider, and mark it done.
 #
-# To release: rotate the credentials, set `rotated: true` with the date, and
-# these files ingest on the next run like anything else.
-rotate_before_ingest:
-  rotated: false
-  rotated_on: null
-  reason: "Live credentials in a link-shared Drive folder. Ingest after rotation."
-  match_filenames:
+# Ingest never fails on a credential find. Detection feeds the register;
+# it does not gate the pipeline.
+rotation_register:
+  enabled: true
+  path: manifest/rotation-register.json
+  block_ingest_on_find: false     # record, never block
+  record_location: true           # file + line, so you can find it again
+  record_value: false             # the register names WHAT to rotate, not the
+                                  # secret itself — you rotate at the provider
+                                  # console, and the value is in the lake object
+                                  # if you need it
+
+  detect:
+    - name: aws_access_key_id
+      regex: "AKIA[0-9A-Z]{16}"
+      rotate_at: "IAM → Users → Security credentials"
+    - name: aws_secret_access_key
+      regex: "(?i)aws_secret_access_key\\s*[=:]\\s*['\"]?[A-Za-z0-9/+=]{40}"
+      rotate_at: "IAM → Users → Security credentials"
+    - name: github_token
+      regex: "gh[pousr]_[A-Za-z0-9]{36,}"
+      rotate_at: "GitHub → Settings → Developer settings → Tokens"
+    - name: google_oauth_client_secret
+      regex: "(?i)client_secret\\s*[=:]\\s*['\"]?[A-Za-z0-9_-]{24,}"
+      rotate_at: "GCP Console → APIs & Services → Credentials"
+    - name: google_api_key
+      regex: "AIza[0-9A-Za-z_-]{35}"
+      rotate_at: "GCP Console → APIs & Services → Credentials"
+    - name: private_key_block
+      regex: "-----BEGIN (RSA |EC |OPENSSH |PGP )?PRIVATE KEY-----"
+      rotate_at: "Reissue keypair at its issuing service"
+    - name: slack_token
+      regex: "xox[baprs]-[0-9A-Za-z-]{10,}"
+      rotate_at: "Slack → Your Apps → OAuth & Permissions"
+    - name: bearer_jwt
+      regex: "eyJ[A-Za-z0-9_-]{10,}\\.[A-Za-z0-9_-]{10,}\\.[A-Za-z0-9_-]{10,}"
+      rotate_at: "Reissue at the token's issuer"
+
+  # Files known to carry credentials. Ingested normally; flagged in the
+  # register so they surface at the top of the worklist.
+  known_credential_files:
     - ".env"
     - ".env.*"
     - "*.pem"
@@ -54,30 +93,18 @@ rotate_before_ingest:
     - "service_account*.json"
     - "*.tfstate"
     - "*.tfstate.backup"
-  match_paths:
-    - "Maroon-AWS-portable-root/**"   # mirrored repo carrying live .env + OAuth config
+  known_credential_paths:
+    - "Maroon-AWS-portable-root/**"
 
-# ─── Hard exclusions: never ingested, to git or to S3 ────────────────
+# ─── Hard exclusions ─────────────────────────────────────────────────
+# Only things with no analytical value. Not a security boundary.
 deny:
   git_internals:
-    reason: "Synced .git/ object store — not content, and carries its own history."
+    reason: "Synced .git/ object store — machine state, not content."
     match_paths:
       - "**/.git/**"
-
-  personal_data:
-    reason: "PII and private correspondence mixed into business folders."
-    match_filenames:
-      - "*resume*"
-      - "*Resume*"
-      - "*Messages*"
-      - "*Messenger*"
-    match_paths:
-      - "DCIM/**"        # phone camera roll
-      - "Pictures/**"    # phone backup
-      - "Download/**"    # phone backup
-
   binary_noise:
-    reason: "No analytical value; ~90MB of runtime libraries."
+    reason: "Runtime libraries; no analytical value."
     match_filenames:
       - "*.dll"
       - "*.exe"
@@ -85,33 +112,23 @@ deny:
       - "*.dylib"
       - "*.node"
 
-# ─── Content scanning ────────────────────────────────────────────────
-# Applied to every file that passes `deny`. A hit quarantines the file and
-# fails the run loudly rather than silently skipping it.
-scan:
-  enabled: true
-  fail_run_on_hit: true
-  patterns:
-    - name: aws_access_key_id
-      regex: "AKIA[0-9A-Z]{16}"
-    - name: aws_secret_access_key
-      regex: "(?i)aws_secret_access_key\\s*[=:]\\s*['\"]?[A-Za-z0-9/+=]{40}"
-    - name: github_token
-      regex: "gh[pousr]_[A-Za-z0-9]{36,}"
-    - name: google_api_key
-      regex: "AIza[0-9A-Za-z_-]{35}"
-    - name: private_key_block
-      regex: "-----BEGIN (RSA |EC |OPENSSH |PGP )?PRIVATE KEY-----"
-    - name: slack_token
-      regex: "xox[baprs]-[0-9A-Za-z-]{10,}"
-    - name: bearer_jwt
-      regex: "eyJ[A-Za-z0-9_-]{10,}\\.[A-Za-z0-9_-]{10,}\\.[A-Za-z0-9_-]{10,}"
+# ─── PII routing ─────────────────────────────────────────────────────
+# Ingested, but to the restricted bucket rather than the main lake.
+pii_routing:
+  destination: restricted
+  match_filenames:
+    - "*resume*"
+    - "*Messages*"
+    - "*Messenger*"
+    - "*Facebook*"
+  match_paths:
+    - "DCIM/**"
+    - "Pictures/**"
+    - "Download/**"
 
-# ─── Review queue: ingested to S3, held out of git pending a decision ──
+# ─── Review queue ────────────────────────────────────────────────────
 review:
-  reason: "Sole-copy documents in a folder marked for deletion, and an
-           unsorted dump. Neither should be silently discarded nor
-           silently published."
+  reason: "Sole-copy documents in a folder marked for deletion, and unsorted dumps."
   match_paths:
     - "Delete/**"
     - "Maroon Injest/**"
@@ -123,17 +140,25 @@ classify:
   "02_Technical_and_Code":           lake/02_technical_and_code
   "03_Marketing_and_Operations":     lake/03_marketing_and_operations
   "04_Legal_Healthcare_Compliance":  lake/04_legal_compliance
+  _archive_extracted:                lake/05_governance
   _root:                             lake/00_root
 
 # ─── Export formats for Google-native types ──────────────────────────
 export:
-  application/vnd.google-apps.document:    text/markdown
-  application/vnd.google-apps.spreadsheet: text/csv
+  application/vnd.google-apps.document:     text/markdown
+  application/vnd.google-apps.spreadsheet:  text/csv
   application/vnd.google-apps.presentation: text/plain
 
+# ─── Archives ────────────────────────────────────────────────────────
+# See docs/ARCHIVE-AUDIT.md — the pipeline does not yet expand archives.
+archives:
+  expand: true
+  max_depth: 5
+  max_uncompressed_bytes: 2147483648   # 2 GiB, zip-bomb guard
+  hash_members_not_containers: true
+  scan_members: true                   # register entries from inside archives
+
 # ─── Deduplication ───────────────────────────────────────────────────
-# The vault is roughly 60-70% duplicate by volume. Content hashing keeps
-# one copy and records the aliases in the manifest.
 dedupe:
   enabled: true
   strategy: sha256_content
