@@ -1,0 +1,4 @@
+[submodule "vendor/shafanna"]
+	path = vendor/shafanna
+	url = https://github.com/coloredinnovator/Maroon-Shevette-master-agent.git
+	branch = main
