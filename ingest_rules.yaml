@@ -28,26 +28,41 @@ destinations:
     # NOTE: bucket does not exist yet — terraform has never been applied.
     # See Maroon-Shevette-master-agent/docs/AUDIT-2026-08-23.md.
 
+# ─── Rotate-before-ingest gate ───────────────────────────────────────
+# Per owner decision (2026-08-23): these files are NOT permanently excluded.
+# They are destined for the lake. The gate is ordering, not exclusion.
+#
+# Git history is permanent — a credential committed and then rotated stays
+# readable in history forever, but a credential rotated *first* is already
+# dead by the time it lands. So the same end state is reached either way;
+# only the safe order is enforced here.
+#
+# To release: rotate the credentials, set `rotated: true` with the date, and
+# these files ingest on the next run like anything else.
+rotate_before_ingest:
+  rotated: false
+  rotated_on: null
+  reason: "Live credentials in a link-shared Drive folder. Ingest after rotation."
+  match_filenames:
+    - ".env"
+    - ".env.*"
+    - "*.pem"
+    - "*.key"
+    - "*_oauth_config.json"
+    - "kiro_oauth_config.json"
+    - "credentials.json"
+    - "service_account*.json"
+    - "*.tfstate"
+    - "*.tfstate.backup"
+  match_paths:
+    - "Maroon-AWS-portable-root/**"   # mirrored repo carrying live .env + OAuth config
+
 # ─── Hard exclusions: never ingested, to git or to S3 ────────────────
-# A match here aborts ingestion of that object. These are not filters that
-# can be relaxed per-run; they are the policy boundary.
 deny:
-  secrets:
-    reason: "Credential material. Ingesting to git is irreversible via history."
-    match_filenames:
-      - ".env"
-      - ".env.*"
-      - "*.pem"
-      - "*.key"
-      - "*_oauth_config.json"
-      - "kiro_oauth_config.json"
-      - "credentials.json"
-      - "service_account*.json"
-      - "*.tfstate"
-      - "*.tfstate.backup"
+  git_internals:
+    reason: "Synced .git/ object store — not content, and carries its own history."
     match_paths:
-      - "Maroon-AWS-portable-root/**"   # mirrored repo carrying live .env + OAuth config
-      - "**/.git/**"                    # synced git internals
+      - "**/.git/**"
 
   personal_data:
     reason: "PII and private correspondence mixed into business folders."

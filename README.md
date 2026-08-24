@@ -39,18 +39,28 @@ large for git) live at
 
 ## Security posture
 
-`SECURITY.md` under Directive 8 states a **zero secrets in GitHub** rule. This
-pipeline enforces it mechanically, not by convention:
+The vault's `Maroon-AWS-portable-root` mirror carries a live `.env` and
+`kiro_oauth_config.json`, and the Drive folder is shared by link.
 
-- `ingest_rules.yaml` hard-denies credential files, the `Maroon-AWS-portable-root/**`
-  mirror, synced `.git/` internals, PII, and phone backups.
-- Every surviving file is regex-scanned for key material before it lands, and a
-  hit **fails the run** rather than skipping quietly.
+Per owner decision (2026-08-23) these are **not** permanently excluded — they
+are destined for the lake. What `ingest_rules.yaml` enforces is *ordering*, not
+exclusion:
 
-The source Drive folder is shared by link and contains a live `.env` and
-`kiro_oauth_config.json` inside the `Maroon-AWS-portable-root` mirror. Those
-credentials should be rotated and the share narrowed. They are excluded here by
-policy, but exclusion from this repo does not undo their exposure in Drive.
+- `rotate_before_ingest` holds those files until the credentials are rotated.
+  Git history is permanent, so a credential committed and then rotated stays
+  readable forever, while a credential rotated first is already dead when it
+  lands. Same end state; only the safe order is enforced.
+- To release: rotate, set `rotate_before_ingest.rotated: true`, and they ingest
+  on the next run like anything else.
+
+Still hard-denied, and separate from the above: synced `.git/` internals,
+personal data (a resume misfiled under `04_Legal_Healthcare_Compliance`, phone
+backups under `DCIM/`, `Pictures/`, `Download/`), and ~90MB of Chromium runtime
+libraries. Say the word if any of those should move into the lake too.
+
+`tools/scan_secrets.py` enforces all of this and exits non-zero on a hit, so it
+can gate CI or a pre-commit hook. It is verified in both directions — clean on
+the current lake, and catching planted keys and blocked filenames.
 
 ## Status
 

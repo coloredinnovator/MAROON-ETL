@@ -45,11 +45,23 @@ def compile_patterns(rules: dict) -> list[tuple[str, re.Pattern]]:
 
 
 def denied_globs(rules: dict) -> list[tuple[str, str]]:
-    """Flatten deny.* filename globs into (glob, category) pairs."""
+    """Flatten filename globs that block ingestion into (glob, label) pairs.
+
+    Two sources: `deny.*`, which is permanent, and `rotate_before_ingest`,
+    which blocks only while its `rotated` flag is false. Once the owner
+    rotates the credentials and flips that flag, those files stop being
+    blocked and ingest normally.
+    """
     out = []
     for category, spec in rules.get("deny", {}).items():
         for glob in spec.get("match_filenames", []) or []:
-            out.append((glob, category))
+            out.append((glob, f"deny.{category}"))
+
+    gate = rules.get("rotate_before_ingest") or {}
+    if gate and not gate.get("rotated", False):
+        for glob in gate.get("match_filenames", []) or []:
+            out.append((glob, "rotate_before_ingest (not yet rotated)"))
+
     return out
 
 
@@ -74,7 +86,7 @@ def scan(targets: list[Path], rules: dict) -> list[str]:
         # Filename-level denials
         for glob, category in globs:
             if fnmatch.fnmatch(path.name, glob):
-                findings.append(f"{rel}: denied filename matches {glob!r} (deny.{category})")
+                findings.append(f"{rel}: blocked filename matches {glob!r} ({category})")
 
         # Content-level scanning; skip anything that is not decodable text
         try:

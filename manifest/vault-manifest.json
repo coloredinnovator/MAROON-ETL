@@ -20,21 +20,23 @@
     "extracted": 2,
     "pending_extraction": 36,
     "s3_only": 2,
-    "denied": 5,
+    "denied": 4,
     "review": 11,
     "empty": 1,
     "duplicate": 4,
+    "rotate_before_ingest": 1,
     "classified": 4
   },
   "dispositions": {
     "extracted": "Full text is in lake/ in this repo.",
     "pending_extraction": "Eligible for the lake; text not yet pulled.",
     "s3_only": "Too large for git; belongs in S3 at full fidelity.",
-    "denied": "Blocked by ingest_rules.yaml. Never ingested.",
+    "denied": "Blocked by ingest_rules.yaml deny.*. Never ingested.",
     "review": "Held for a human decision before ingest.",
     "duplicate": "Content twin of another object; alias recorded.",
     "empty": "Exports with no content.",
-    "classified": "Folder node, used for routing."
+    "classified": "Folder node, used for routing.",
+    "rotate_before_ingest": "Destined for the lake; held only until the credentials it carries are rotated."
   },
   "objects": [
     {
@@ -518,8 +520,8 @@
       "drive_folder": "_root",
       "mime_type": "application/vnd.google-apps.folder",
       "modified": "2026-08-23T21:11:12.207Z",
-      "disposition": "denied",
-      "note": "Contains live .env, kiro_oauth_config.json, and synced .git/ (deny.secrets). ROTATE THESE CREDENTIALS."
+      "disposition": "rotate_before_ingest",
+      "note": "Carries live .env and kiro_oauth_config.json. Owner decision 2026-08-23: destined for the lake, not excluded. Ingests once credentials are rotated and ingest_rules.yaml rotate_before_ingest.rotated is set true."
     },
     {
       "drive_file_id": "1uzJW_OHd71Dk44uLAFs9fwi0I7uSGNd7",
