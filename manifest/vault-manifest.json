@@ -9,21 +9,23 @@
   },
   "coverage": {
     "scope": "vault root and the four classified subfolders, two levels deep",
-    "note": "Subfolder trees under review/denied folders are not enumerated here."
+    "note": "Subfolder trees under review/denied folders are not enumerated here.",
+    "archives": "Archive members are NOT expanded by the pipeline. See docs/ARCHIVE-AUDIT.md. Only Dynasty_Master_Governance_Files_Full (1).zip has been expanded, by hand, into lake/05_governance/."
   },
   "date_range": {
-    "oldest_object": "2025-10-31",
+    "oldest_object": "2025-10-14",
     "newest_object": "2026-08-23",
-    "substantive_corpus": "2026-05-11 to 2026-08-23"
+    "substantive_corpus": "2026-05-11 to 2026-08-23",
+    "_correction": "Earlier survey reported 2025-10-31. Corrected: 'Sean bundel .zip' is modified 2025-10-14T19:18:10Z."
   },
   "disposition_counts": {
-    "extracted": 2,
-    "pending_extraction": 36,
+    "extracted": 3,
+    "pending_extraction": 45,
     "s3_only": 2,
-    "denied": 4,
-    "review": 11,
+    "denied": 5,
+    "review": 12,
     "empty": 1,
-    "duplicate": 4,
+    "duplicate": 6,
     "rotate_before_ingest": 1,
     "classified": 4
   },
@@ -633,6 +635,146 @@
       "mime_type": "application/vnd.google-apps.folder",
       "modified": "2026-08-02T20:55:18.011Z",
       "disposition": "classified"
+    },
+    {
+      "drive_file_id": "1PT2_iCPBi-sg14f69pK6JU7MJV6MI3R-",
+      "title": "Dynasty_Master_Governance_Files_Full (1).zip",
+      "drive_folder": "_archives",
+      "mime_type": "application/zip",
+      "modified": "2025-10-30T02:41:18Z",
+      "disposition": "extracted",
+      "size_bytes": 46728,
+      "note": "Expanded; 16 governance docs in lake/05_governance/. Contains 2 nested zips with identical members."
+    },
+    {
+      "drive_file_id": "12SWW6KbHgSIOZTqi_IwqJcfFzkJLKlR-",
+      "title": "Dynasty_Master_Governance_Files_Full (2) (1).zip",
+      "drive_folder": "_archives",
+      "mime_type": "application/zip",
+      "modified": "2025-10-30T02:40:36Z",
+      "disposition": "duplicate",
+      "size_bytes": 30841,
+      "note": "Same 16 members as the (1) archive."
+    },
+    {
+      "drive_file_id": "1ynLuA2JPpgJXeo1_HmNgCeqrgnj5nCBU",
+      "title": "takeout-20251204T172236Z-8-001.zip",
+      "drive_folder": "_archives",
+      "mime_type": "application/zip",
+      "modified": "2025-12-04T17:24:07Z",
+      "disposition": "review",
+      "size_bytes": 288665212,
+      "note": "275MB \u2014 blocked by the 100MB rail. May hold real documents; decide explicitly."
+    },
+    {
+      "drive_file_id": "1AMCA1yQ1LGt2bNPcZH03Iv62PsYnoPX3",
+      "title": "cb_2019_53_bg_500k.zip",
+      "drive_folder": "_archives",
+      "mime_type": "application/zip",
+      "modified": "2026-06-22T15:46:30Z",
+      "disposition": "denied",
+      "size_bytes": 236794294,
+      "note": "226MB Census TIGER block groups (WA FIPS 53). Public reference data."
+    },
+    {
+      "drive_file_id": "199sEVV3XZOAOwh3W0de66rkwfF-OFOB_",
+      "title": "AI_Memory_Patent_Package_v2.zip",
+      "drive_folder": "_archives",
+      "mime_type": "application/zip",
+      "modified": "2025-10-24T03:45:17Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 485752,
+      "note": "Patent package."
+    },
+    {
+      "drive_file_id": "1o9rCuOhG1pC1e0uncEfata0tEWELSm-F",
+      "title": "AI_Memory_Patent_Package.zip",
+      "drive_folder": "_archives",
+      "mime_type": "application/zip",
+      "modified": "2025-10-24T03:43:18Z",
+      "disposition": "duplicate",
+      "size_bytes": 480574,
+      "note": "Superseded by v2."
+    },
+    {
+      "drive_file_id": "1_TxowZ8TojGJg8O-6eKz6g5y0xBaiPjz",
+      "title": "EBT_Patent_Provisional_Package.zip",
+      "drive_folder": "_archives",
+      "mime_type": "application/zip",
+      "modified": "2025-10-19T01:45:25Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 466745,
+      "note": "Patent provisional."
+    },
+    {
+      "drive_file_id": "1nASgirVFbM4w_j-oL1Ol03o9UTQZd0RD",
+      "title": "patent_moat.zip",
+      "drive_folder": "_archives",
+      "mime_type": "application/zip",
+      "modified": "2025-10-19T01:45:20Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 3399,
+      "note": "Patent strategy."
+    },
+    {
+      "drive_file_id": "1UVY_ezb-0PbtUPXzJzhk_hrVjcRB125y",
+      "title": "Onidas_Dynasty_Master_Package.zip",
+      "drive_folder": "_archives",
+      "mime_type": "application/zip",
+      "modified": "2025-10-14T19:49:00Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 31025,
+      "note": "Business master package."
+    },
+    {
+      "drive_file_id": "1BdZYxNYuBwVKdQOgdNmRKDg-Zq9U0YiG",
+      "title": "BankerDocs_Complete.zip",
+      "drive_folder": "_archives",
+      "mime_type": "application/zip",
+      "modified": "2025-10-14T19:49:16Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 38529,
+      "note": "Banker documents."
+    },
+    {
+      "drive_file_id": "1YeG0ue3bgWQ12S-xvGlJvxhjuSDITJzr",
+      "title": "maroon-handoff_1 (2).zip",
+      "drive_folder": "_archives",
+      "mime_type": "application/zip",
+      "modified": "2026-06-20T23:28:17Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 28473,
+      "note": "Nested wrapper around maroon-handoff_1.zip."
+    },
+    {
+      "drive_file_id": "1iCT0oO183iVk32fryk7f8jm_OzlYf4I9",
+      "title": "Sean bundel .zip",
+      "drive_folder": "_archives",
+      "mime_type": "application/zip",
+      "modified": "2025-10-14T19:18:10Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 4415,
+      "note": "OLDEST vault object."
+    },
+    {
+      "drive_file_id": "1wZy3o13-bNfd21Rns-nEM6kZkRiB5Ma5",
+      "title": "Onitas_Market_Presentation_Pack.zip",
+      "drive_folder": "_archives",
+      "mime_type": "application/zip",
+      "modified": "2025-10-27T17:33:36Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 2132989,
+      "note": "Presentation pack."
+    },
+    {
+      "drive_file_id": "1mKfKrxz-SHri1pEwA9x4vjwyIkW5gcBc",
+      "title": "snap_compliance_pipeline.zip",
+      "drive_folder": "_archives",
+      "mime_type": "application/zip",
+      "modified": "2025-10-15T02:33:26Z",
+      "disposition": "pending_extraction",
+      "size_bytes": 165220,
+      "note": "SNAP compliance."
     }
   ]
 }
