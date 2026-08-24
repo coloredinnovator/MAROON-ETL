@@ -231,6 +231,52 @@ Terraform in `terraform/main.tf`:
 - IAM role with OIDC for GitHub Actions
 - Public access blocked on both buckets
 
+### Bootstrap via AWS CloudShell
+
+The fastest way to provision all infrastructure from scratch is the bootstrap
+script. It creates S3 buckets, DynamoDB table, OIDC provider, IAM roles with
+scoped policies, and an ECR repository. It is fully idempotent (safe to run
+multiple times).
+
+**Steps:**
+
+1. Open [AWS CloudShell](https://us-west-2.console.aws.amazon.com/cloudshell/home?region=us-west-2)
+   in the `us-west-2` region (make sure you are in account `496411573616`).
+
+2. Clone this repo and run the bootstrap:
+
+```bash
+git clone https://github.com/coloredinnovator/MAROON-ETL.git
+cd MAROON-ETL
+bash scripts/bootstrap-aws.sh
+```
+
+3. After completion the script prints the IAM Role ARNs. Add them as GitHub
+   Actions secrets:
+
+| Repository | Secret Name | Value |
+|---|---|---|
+| `Maroon-Shevette-master-agent` | `AWS_ROLE_ARN` | `arn:aws:iam::496411573616:role/shafanna-github-actions` |
+| `MAROON-ETL` | `AWS_ROLE_ARN` | `arn:aws:iam::496411573616:role/maroon-etl-github-actions` |
+
+4. Push any commit to trigger CI/CD with OIDC authentication.
+
+**What gets created:**
+
+| Resource | Name | Notes |
+|---|---|---|
+| S3 Bucket | `maroon-datalake-496411573616-usw2` | Versioning, SSE-S3, raw/ lifecycle |
+| S3 Bucket | `maroon-datalake-restricted-496411573616-usw2` | PII data |
+| S3 Bucket | `shafanna-datalake-496411573616` | Shafanna agent |
+| DynamoDB | `shafanna-agent-memory` | pk/sk, PAY_PER_REQUEST, TTL |
+| OIDC | GitHub Actions provider | No stored credentials |
+| IAM Role | `shafanna-github-actions` | Shafanna + maroon-techo repos |
+| IAM Role | `maroon-etl-github-actions` | MAROON-ETL repo only |
+| ECR | `shafanna-etl` | Container image registry |
+
+All resources are pay-per-use or free tier. Estimated cost: under $0.10/month
+with normal usage.
+
 ## Future State (NOT built now)
 
 - Apache Spark for large-scale transforms
